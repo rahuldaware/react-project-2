@@ -1,0 +1,19 @@
+.textLeft {
+  text-align: left;
+}
+.textCenter {
+  text-align: center;
+}
+.textRight {
+  text-align: right;
+}
+.Center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ListGroupBackGround {
+  background-color: #ffebe6;
+}
+
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
