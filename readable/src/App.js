@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as ReadableAPI from './api/ReadableAPI.js';
-
+import Root from './components/Root'
 class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
+        <Root />
       </div>
     );
   }
