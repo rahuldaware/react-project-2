@@ -2,13 +2,26 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem, ButtonToolbar, Button } from 'react-bootstrap';
 import '../css/component.css';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import { Redirect } from 'react-router';
+import {Link} from 'react-router-dom';
+
+const upVote = "upVote";
+const downVote = "downVote";
 class Post extends React.Component {
- handleEditClick = (event) => {
-   this.props.handleEditClick(this.props.post.id);
+ handleEditClick = (id) => {
+   this.props.handleEditClick(id);
  }
+ handlePostVote = (id, vote) => {
+   this.props.handlePostVote(id, vote);
+ }
+
   render() {
     const post = this.props.post;
+    if(this.state && this.state.editClick) {
+      return <Redirect push to="/:category/:post_id" />
+    }
     return (
+
       <div className="ListGroupBackGround">
         <Panel>
           <ListGroup >
@@ -18,17 +31,20 @@ class Post extends React.Component {
               <ButtonToolbar>
                   <Button disabled> Comments : {post.commentCount}</Button>
                   <Button disabled> Votes : {post.voteScore}</Button>
-                  <Button bsStyle="primary">
+                  <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,upVote)}>
                     <span>
                       <Glyphicon glyph="thumbs-up"/>
                     </span>
                   </Button>
-                  <Button bsStyle="primary">
+                  <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,downVote)}>
                     <span>
                       <Glyphicon glyph="thumbs-down"/>
                     </span>
                   </Button>
-                  <Button bsStyle="warning" onClick={this.handleEditClick}>Edit</Button>
+
+                  <Button bsStyle="warning" onClick={() => this.handleEditClick(post.id)}>
+                    <Link to={`/${post.category}/${post.id}`}>Edit</Link>
+                  </Button>
                   <Button bsStyle="danger">Delete</Button>
               </ButtonToolbar>
             </ListGroupItem>

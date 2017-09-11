@@ -1,4 +1,4 @@
-const api = "http://localhost:5001"
+const api = "http://localhost:3001"
 
 let token = Math.random().toString(36).substr(-8)
 
@@ -38,9 +38,10 @@ export const addVoteToPost = (id, option) =>
       method: 'POST',
       headers: {
         ...headers,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: JSON.stringify(option)
+      body: JSON.stringify({"option": option})
     }).then(res => res.json())
 
 export const updatePost = (id, body) =>
@@ -75,13 +76,14 @@ export const getSingleComment = (id) =>
     fetch(`${api}/comments/${id}`,{headers})
     .then(res => res.json())
 
-export const addVoteToComment = (id, vote) =>
+export const addVoteToComment = (id, option) =>
     fetch(`${api}/comments/${id}`, {
       method: 'POST',
       headers: {...headers,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: JSON.stringify(vote)
+      body: JSON.stringify({"option": option})
     }).then(res => res.json())
 
 export const updateComment = (id, body) =>

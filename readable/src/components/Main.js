@@ -15,7 +15,8 @@ class Main extends Component {
                 return (
                   <div key={post.id}>
                     <Post post ={post}
-                      handleEditClick={this.props.handleEditClick}/>
+                      handleEditClick ={this.props.handleEditClick}
+                      handlePostVote = {this.props.handlePostVote}/>
                   </div>
                 )
               })
