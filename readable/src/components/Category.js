@@ -19,13 +19,17 @@ class Category extends Component {
     const comments = new Map(this.props.data.comments.comments);
     if(posts) {
       return(
-        posts.map((post) => {
+        posts.filter((post) => {
+          console.log(post)
+          return post.deleted === false;
+        }).map((post) => {
           post.commentCount = (comments.get(post.id)) ? comments.get(post.id).length : 0;
           return (
             <div key={post.id}>
               <Post post ={post}
                 handleEditClick ={this.props.handleEditClick}
-                handlePostVote = {this.props.handlePostVote}/>
+                handlePostVote = {this.props.handlePostVote}
+                handleDeletePost = {this.props.handleDeletePost}/>
             </div>
           )
       }))
@@ -38,6 +42,7 @@ class Category extends Component {
             <Link to="/" onClick = {() => this.props.handleBackToHomepage()}>Back to Homepage</Link>
           </div>
           <div>
+            hello
             {this.renderPosts(this.props)}
           </div>
         </div>

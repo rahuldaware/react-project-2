@@ -3,6 +3,7 @@ import Main from './Main';
 import PostDetail from './PostDetail';
 import Category from './Category';
 import Add from './Add';
+import AddComment from './AddComment';
 import { Route, Switch } from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as Actions from '../actions/index';
@@ -46,6 +47,30 @@ class Root extends Component {
     this.props.handleAddPost(post);
   }
 
+  handleDeletePost = (id) => {
+    this.props.handleDeletePost(id);
+  }
+
+  handleDeleteComment = (id, parentId) => {
+    this.props.handleDeleteComment(id, parentId);
+    this.props.fetchComments(parentId).then(() => {
+        this.setState({...this.props});
+    })
+  }
+  handleAddComment = (comment) => {
+    this.props.handleAddComment(comment, comment.parentId);
+    this.props.fetchAllPosts().then(() => {
+      const posts = this.props.posts.posts;
+      posts.forEach((post) => {
+          this.props.fetchComments(post.id).then(() => {
+            this.setState({...this.props});
+          })
+      })
+    }
+    );
+    console.log(this.props);
+  }
+
   componentDidMount(){
     this.props.fetchCategories();
     this.props.fetchAllPosts().then(() => {
@@ -64,10 +89,14 @@ class Root extends Component {
             <Switch>
               <Route exact path='/' render={() =>
                   <Main data={this.props}
+                        fetchCategories={this.props.fetchCategories}
+                        fetchAllPosts={this.props.fetchAllPosts}
+                        fetchComments={this.props.fetchComments}
                         handleEditClick={this.handleEditClick}
                         handlePostVote={this.handlePostVote}
                         handleCategoryChange={this.handleCategoryChange}
                         handleBackToHomepage={this.handleBackToHomepage}
+                        handleDeletePost={this.handleDeletePost}
                         />}/>
               <Route exact path='/add' render={() =>
                   <Add data={this.props}
@@ -77,13 +106,20 @@ class Root extends Component {
                 <PostDetail data={this.props}
                             handlePostVote={this.handlePostVote}
                             handleCommentVote={this.handleCommentVote}
-                            handleBackToHomepage={this.handleBackToHomepage}/>} />
-              <Route path='/:category' render={() =>
+                            handleBackToHomepage={this.handleBackToHomepage}
+                            handleDeleteComment={this.handleDeleteComment}
+                            />} />
+                          <Route exact path='/:post_id' render={() =>
+                  <AddComment data={this.props}
+                              handleAddComment={this.handleAddComment}/>}/>
+              <Route exact path='/:category' render={() =>
                 <Category data={this.props}
                   handlePostVote={this.handlePostVote}
                   handleCommentVote={this.handleCommentVote}
                   handleEditClick={this.handleEditClick}
-                  handleBackToHomepage={this.handleBackToHomepage}/>}/>
+                  handleBackToHomepage={this.handleBackToHomepage}
+                  handleDeletePost={this.handleDeletePost}/>}/>
+
             </Switch>
           </div>
     );
@@ -100,7 +136,10 @@ function mapDispatchToProps(dispatch) {
     updateEditClick: (id) => dispatch(Actions.updateEditClick(id)),
     handleCategoryChange: (category) => dispatch(Actions.updateCategory(category)),
     handleBackToHomepage: () => dispatch(Actions.handleBackToHomepage()),
-    handleAddPost: (post) => dispatch(Actions.handleAddPost(post))
+    handleAddPost: (post) => dispatch(Actions.handleAddPost(post)),
+    handleDeletePost: (id) => dispatch(Actions.handleDeletePost(id)),
+    handleDeleteComment: (id, parentId) => dispatch(Actions.handleDeleteComment(id, parentId)),
+    handleAddComment: (comment, parentId) => dispatch(Actions.handleAddComment(comment, parentId))
   }
 }
 

@@ -6,20 +6,27 @@ import {Link} from 'react-router-dom';
 
 class Main extends Component {
 
+  componentDidMount() {
+    this.setState({});
+  }
   renderPosts = (props) => {
     const posts = this.props.data.posts.posts;
     const comments = new Map(this.props.data.comments.comments);
+    console.log(this.props.data);
     if(posts){
       return(
         <div>
             {
-              posts.map((post) => {
+              posts.filter((post) => {
+                return post.deleted === false;
+              }).map((post) => {
                 post.commentCount = (comments.get(post.id)) ? comments.get(post.id).length : 0;
                 return (
                   <div key={post.id}>
                     <Post post ={post}
                       handleEditClick ={this.props.handleEditClick}
-                      handlePostVote = {this.props.handlePostVote}/>
+                      handlePostVote = {this.props.handlePostVote}
+                      handleDeletePost = {this.props.handleDeletePost}/>
                   </div>
                 )
             })

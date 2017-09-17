@@ -60,7 +60,7 @@ export const deletePost = (id) =>
     fetch(`${api}/posts/${id}`,{
       method: 'DELETE',
       headers: {...headers}
-    }).then(res => res.json())
+    })
 
 export const getComments = (id) =>
     fetch(`${api}/posts/${id}/comments`,{headers})
@@ -101,4 +101,4 @@ export const deleteComment = (id) =>
     fetch(`${api}/comments/${id}`,{
       method: 'DELETE',
       headers: {...headers},
-    }).then(res => res.json())
+    })

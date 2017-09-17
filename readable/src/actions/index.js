@@ -54,3 +54,15 @@ export const handleBackToHomepage = () => ({
 export const handleAddPost = (post) => dispatch => {
     ReadableAPI.addPost(post).then(ReadableAPI.getAllPosts().then(posts => dispatch(getAllPosts(posts))))
 }
+
+export const handleDeletePost = (id) => dispatch => {
+  ReadableAPI.deletePost(id).then(ReadableAPI.getAllPosts().then(posts => dispatch(getAllPosts(posts))))
+}
+
+export const handleDeleteComment = (id, parentId) => dispatch => {
+  ReadableAPI.deleteComment(id).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
+}
+
+export const handleAddComment = (comment, parentId) => dispatch => {
+  ReadableAPI.addComment(comment).then(comments => ReadableAPI.getComments(comments.parentId).then(comments => dispatch(getComments(comments))))
+}

@@ -13,6 +13,9 @@ class Post extends React.Component {
  handlePostVote = (id, vote) => {
    this.props.handlePostVote(id, vote);
  }
+ handleDeletePost =(id) => {
+   this.props.handleDeletePost(id);
+ }
 
   render() {
     const post = this.props.post;
@@ -41,7 +44,7 @@ class Post extends React.Component {
                   <Button bsStyle="warning" onClick={() => this.handleEditClick(post.id, post.category)}>
                     <Link to={`/${post.category}/${post.id}`}>View</Link>
                   </Button>
-                  <Button bsStyle="danger">Delete</Button>
+                  <Button bsStyle="danger" onClick={() => this.handleDeletePost(post.id)}>Delete</Button>
               </ButtonToolbar>
             </ListGroupItem>
           </ListGroup>

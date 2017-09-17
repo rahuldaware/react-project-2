@@ -16,7 +16,14 @@ class PostDetail extends Component {
     this.props.handleCommentVote(id, vote, parentId);
   }
 
+  handleDeleteComment = (id, parentId) => {
+    console.log(id);
+    this.props.handleDeleteComment(id, parentId);
+    this.setState({...this.props});
+  }
+
   renderComments = (comments) => {
+    console.log(comments)
     if(comments) {
       return(
           <div>
@@ -42,7 +49,7 @@ class PostDetail extends Component {
                             <Button bsStyle="warning">
                               Edit
                             </Button>
-                            <Button bsStyle="danger">Delete</Button>
+                            <Button bsStyle="danger" onClick={() => this.handleDeleteComment(comment.id, comment.parentId)}>Delete</Button>
                         </ButtonToolbar>
                       </ListGroupItem>
                     </ListGroup>
@@ -92,6 +99,9 @@ class PostDetail extends Component {
                     <span>
                       <Glyphicon glyph="thumbs-down"/>
                     </span>
+                  </Button>
+                  <Button>
+                    <Link to={`/${post.id}`} onClick={() => {}}>Add Comment</Link>
                   </Button>
               </ButtonToolbar>
             </ListGroupItem>
