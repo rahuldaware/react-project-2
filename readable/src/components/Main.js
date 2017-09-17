@@ -1,5 +1,8 @@
 import   React, { Component } from 'react';
 import Post from './Post';
+import {Redirect} from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 
 class Main extends Component {
 
@@ -19,22 +22,72 @@ class Main extends Component {
                       handlePostVote = {this.props.handlePostVote}/>
                   </div>
                 )
-              })
+            })
             }
         </div>
       );
     }
-
-
   }
-  render() {
-    return(
-        <div>
-          {this.renderPosts(this.props)}
 
+  renderCategoryChange = (category) => {
+    this.props.handleCategoryChange(category);
+    this.setState({
+      ...this.props,
+      categoryView: true,
+      categoryForView: category
+    })
+  }
+
+
+  renderCategories = (data) => {
+    let categories = null;
+    if(data) {
+      categories = data.categories.categories;
+    }
+    if(categories) {
+      return(
+        <div>
+          Category View :
+          <select
+            onChange={(event) => this.renderCategoryChange(event.target.value)}>
+              <option></option>
+              {
+                categories.map((category) => {
+                  return(
+                      <option key={category.name} value={category.name}>{category.name}</option>
+              )})}
+          </select>
+        </div>
+  )}}
+
+  render() {
+    if(this.props.data.activeView && this.props.data.activeView.activeId && this.props.data.activeView.activeId.length > 0) {
+      return (
+        <div>
+          <Redirect to={this.props.data.activeView.activeId} />
+        </div>
+      )
+    }
+    else if(this.props.data.activeView && this.props.data.activeView.activeCategory && this.props.data.activeView.activeCategory.length > 0) {
+      return (
+        <div>
+          <Redirect to={this.props.data.activeView.activeCategory} />
+        </div>
+      )
+    }
+    return(
+      <div>
+        <div>
+          {this.renderCategories(this.props.data)}
+        </div>
+        <div>
+          {this.renderPosts(this.props.categories)}
+        </div>
+        <div className="open-search">
+          <Button><Link to="/add">Add Post</Link></Button>
+        </div>
         </div>
     )
-
   }
 }
 

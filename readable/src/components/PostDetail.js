@@ -25,7 +25,7 @@ class PostDetail extends Component {
                   return(
                     <ListGroup key={comment.id}>
                       <ListGroupItem><h5 className="textLeft">{comment.body}</h5></ListGroupItem>
-                      <ListGroupItem className="textLeft">{comment.author}</ListGroupItem>
+                      <ListGroupItem className="textLeft">Author: {comment.author}</ListGroupItem>
                       <ListGroupItem className="Center">
                         <ButtonToolbar>
                             <Button disabled> Votes : {comment.voteScore}</Button>
@@ -54,6 +54,7 @@ class PostDetail extends Component {
     }
   }
   render() {
+    console.log(this.props.data);
     let id = ""
     if(this.props.data.location.pathname) {
       id = this.props.data.location.pathname.split("/")[2];
@@ -71,13 +72,13 @@ class PostDetail extends Component {
     return (
       <div className="ListGroupBackGround">
         <div>
-          <Link to={`/`}>Back to Homepage</Link>
+          <Link to="/" onClick = {() => this.props.handleBackToHomepage()}>Back to Homepage</Link>
         </div>
         <Panel>
           <ListGroup >
             <ListGroupItem><h3 className="textLeft">Title: {post.title}</h3></ListGroupItem>
             <ListGroupItem><h3 className="textLeft">Body: {post.body}</h3></ListGroupItem>
-            <ListGroupItem className="textLeft">{post.author}</ListGroupItem>
+            <ListGroupItem className="textLeft">Author: {post.author}</ListGroupItem>
             <ListGroupItem className="Center">
               <ButtonToolbar>
                   <Button disabled> Comments : {commentCount}</Button>

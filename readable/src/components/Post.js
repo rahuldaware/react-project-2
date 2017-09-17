@@ -2,14 +2,13 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem, ButtonToolbar, Button } from 'react-bootstrap';
 import '../css/component.css';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import { Redirect } from 'react-router';
 import {Link} from 'react-router-dom';
 
 const upVote = "upVote";
 const downVote = "downVote";
 class Post extends React.Component {
- handleEditClick = (id) => {
-   this.props.handleEditClick(id);
+ handleEditClick = (id, category) => {
+   this.props.handleEditClick(id, category);
  }
  handlePostVote = (id, vote) => {
    this.props.handlePostVote(id, vote);
@@ -17,9 +16,7 @@ class Post extends React.Component {
 
   render() {
     const post = this.props.post;
-    if(this.state && this.state.editClick) {
-      return <Redirect push to="/:category/:post_id" />
-    }
+
     return (
 
       <div className="ListGroupBackGround">
@@ -41,9 +38,8 @@ class Post extends React.Component {
                       <Glyphicon glyph="thumbs-down"/>
                     </span>
                   </Button>
-
-                  <Button bsStyle="warning" onClick={() => this.handleEditClick(post.id)}>
-                    <Link to={`/${post.category}/${post.id}`}>Edit</Link>
+                  <Button bsStyle="warning" onClick={() => this.handleEditClick(post.id, post.category)}>
+                    <Link to={`/${post.category}/${post.id}`}>View</Link>
                   </Button>
                   <Button bsStyle="danger">Delete</Button>
               </ButtonToolbar>

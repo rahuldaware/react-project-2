@@ -10,10 +10,12 @@ import { withRouter } from 'react-router';
 
 class Root extends Component {
 
-  handleEditClick = (id) => {
-    this.setState({...this.props,
-                  activeId: id,
-                  activePage: 'categoryView'});
+  handleEditClick = (id, category) => {
+    const activeIdObject = {
+      id: id,
+      category: category
+    }
+    this.props.updateEditClick(activeIdObject);
   }
 
   handlePostVote = (id, vote) => {
@@ -30,6 +32,19 @@ class Root extends Component {
     })
   }
 
+  handleCategoryChange = (category) => {
+    this.props.handleCategoryChange(category);
+    console.log(category);
+  }
+
+  handleBackToHomepage = (category) => {
+    this.props.handleBackToHomepage();
+    this.setState({...this.props});
+  }
+
+  handleAddPost = (post) => {
+    this.props.handleAddPost(post);
+  }
 
   componentDidMount(){
     this.props.fetchCategories();
@@ -50,15 +65,25 @@ class Root extends Component {
               <Route exact path='/' render={() =>
                   <Main data={this.props}
                         handleEditClick={this.handleEditClick}
-                        handlePostVote={this.handlePostVote}/>}/>
+                        handlePostVote={this.handlePostVote}
+                        handleCategoryChange={this.handleCategoryChange}
+                        handleBackToHomepage={this.handleBackToHomepage}
+                        />}/>
               <Route exact path='/add' render={() =>
-                  <Add />} />
+                  <Add data={this.props}
+                      handleBackToHomepage={this.handleBackToHomepage}
+                      handleAddPost = {this.handleAddPost}/>} />
               <Route exact path='/:category/:post_id' render={() =>
                 <PostDetail data={this.props}
                             handlePostVote={this.handlePostVote}
-                            handleCommentVote={this.handleCommentVote}/>} />
+                            handleCommentVote={this.handleCommentVote}
+                            handleBackToHomepage={this.handleBackToHomepage}/>} />
               <Route path='/:category' render={() =>
-                <Category categories={this.props.categories}/>}/>
+                <Category data={this.props}
+                  handlePostVote={this.handlePostVote}
+                  handleCommentVote={this.handleCommentVote}
+                  handleEditClick={this.handleEditClick}
+                  handleBackToHomepage={this.handleBackToHomepage}/>}/>
             </Switch>
           </div>
     );
@@ -71,7 +96,11 @@ function mapDispatchToProps(dispatch) {
     fetchAllPosts: () => dispatch(Actions.fetchAllPosts()),
     fetchComments: (id) => dispatch(Actions.fetchComments(id)),
     updateVoteToPost: (id, vote) => dispatch(Actions.updateVoteToPost(id, vote)),
-    updateVoteToComment: (id, vote, parentId) => dispatch(Actions.updateVoteToComment(id, vote, parentId))
+    updateVoteToComment: (id, vote, parentId) => dispatch(Actions.updateVoteToComment(id, vote, parentId)),
+    updateEditClick: (id) => dispatch(Actions.updateEditClick(id)),
+    handleCategoryChange: (category) => dispatch(Actions.updateCategory(category)),
+    handleBackToHomepage: () => dispatch(Actions.handleBackToHomepage()),
+    handleAddPost: (post) => dispatch(Actions.handleAddPost(post))
   }
 }
 
@@ -79,7 +108,8 @@ function mapStateToProps(state, props) {
   return {
     categories: state.categories,
     posts: state.posts,
-    comments: state.comments
+    comments: state.comments,
+    activeView: state.activeView
   }
 }
 

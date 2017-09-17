@@ -16,4 +16,10 @@
   background-color: #ffebe6;
 }
 
+.open-search {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");

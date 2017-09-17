@@ -35,3 +35,22 @@ export const updateVoteToPost = (id, vote) => dispatch => (
 export const updateVoteToComment = (id, vote, parentId) => dispatch => (
     ReadableAPI.addVoteToComment(id, vote).then(comments => dispatch(getComments(comments)))
 );
+
+export const updateEditClick = (id) => ({
+  type: ActionTypes.EDIT_POST,
+  res: id
+})
+
+export const updateCategory = (category) => ({
+  type: ActionTypes.UPDATE_ACTIVE_CATEGORY,
+  res: category
+})
+
+export const handleBackToHomepage = () => ({
+  type: ActionTypes.HANDLE_BACK_TO_HOMEPAGE,
+  res: {}
+})
+
+export const handleAddPost = (post) => dispatch => {
+    ReadableAPI.addPost(post).then(ReadableAPI.getAllPosts().then(posts => dispatch(getAllPosts(posts))))
+}
