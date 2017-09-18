@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 class Main extends Component {
 
   componentDidMount() {
-    this.setState({});
+    this.setState({...this.props});
   }
   renderPosts = (props) => {
     const posts = this.props.data.posts.posts;
@@ -68,6 +68,7 @@ class Main extends Component {
   )}}
 
   render() {
+    console.log("Rendering Main");
     if(this.props.data.activeView && this.props.data.activeView.activeId && this.props.data.activeView.activeId.length > 0) {
       return (
         <div>

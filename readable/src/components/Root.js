@@ -59,16 +59,6 @@ class Root extends Component {
   }
   handleAddComment = (comment) => {
     this.props.handleAddComment(comment, comment.parentId);
-    this.props.fetchAllPosts().then(() => {
-      const posts = this.props.posts.posts;
-      posts.forEach((post) => {
-          this.props.fetchComments(post.id).then(() => {
-            this.setState({...this.props});
-          })
-      })
-    }
-    );
-    console.log(this.props);
   }
 
   componentDidMount(){
@@ -111,7 +101,8 @@ class Root extends Component {
                             />} />
                           <Route exact path='/:post_id' render={() =>
                   <AddComment data={this.props}
-                              handleAddComment={this.handleAddComment}/>}/>
+                              handleAddComment={this.handleAddComment}
+                              handleBackToHomepage={this.handleBackToHomepage}/>}/>
               <Route exact path='/:category' render={() =>
                 <Category data={this.props}
                   handlePostVote={this.handlePostVote}

@@ -64,5 +64,5 @@ export const handleDeleteComment = (id, parentId) => dispatch => {
 }
 
 export const handleAddComment = (comment, parentId) => dispatch => {
-  ReadableAPI.addComment(comment).then(comments => ReadableAPI.getComments(comments.parentId).then(comments => dispatch(getComments(comments))))
+  ReadableAPI.addComment(comment).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
 }
