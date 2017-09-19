@@ -29,6 +29,9 @@ class Post extends React.Component {
             <ListGroupItem className="textLeft">{post.author}</ListGroupItem>
             <ListGroupItem className="Center">
               <ButtonToolbar>
+                <Button>
+                  <Link to={`/${post.id}`} onClick={() => {}}>Add Comment</Link>
+                </Button>
                   <Button disabled> Comments : {post.commentCount}</Button>
                   <Button disabled> Votes : {post.voteScore}</Button>
                   <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,upVote)}>
