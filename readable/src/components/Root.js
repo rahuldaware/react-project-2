@@ -74,6 +74,15 @@ class Root extends Component {
     this.setState({...this.props});
   }
 
+  handleUpdatePost =(post) => {
+    let id = post.id;
+    let body = {}
+    body.title = post.title
+    body.body = post.body
+    this.props.handleUpdatePost(id, body);
+    console.log(post);
+  }
+
   componentDidMount(){
     this.props.fetchCategories();
     this.props.fetchAllPosts().then(() => {
@@ -107,6 +116,7 @@ class Root extends Component {
                   <Add data={this.props}
                       handleBackToHomepage={this.handleBackToHomepage}
                       handleAddPost = {this.handleAddPost}
+                      handleUpdatePost ={this.handleUpdatePost}
                       />} />
               <Route exact path='/:category/:post_id' render={() =>
                 <PostDetail data={this.props}
@@ -128,7 +138,6 @@ class Root extends Component {
                   handleEditClick={this.handleEditClick}
                   handleBackToHomepage={this.handleBackToHomepage}
                   handleDeletePost={this.handleDeletePost}/>}/>
-
             </Switch>
           </div>
     );
@@ -150,7 +159,8 @@ function mapDispatchToProps(dispatch) {
     handleDeletePost: (id) => dispatch(Actions.handleDeletePost(id)),
     handleDeleteComment: (id, parentId) => dispatch(Actions.handleDeleteComment(id, parentId)),
     handleAddComment: (parentId) => dispatch(Actions.handleAddComment(parentId)),
-    handlePostComment: (comment, parentId) => dispatch(Actions.handlePostComment(comment, parentId))
+    handlePostComment: (comment, parentId) => dispatch(Actions.handlePostComment(comment, parentId)),
+    handleUpdatePost: (id, body) => dispatch(Actions.handleUpdatePost(id, body))
   }
 }
 

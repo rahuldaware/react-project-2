@@ -20,6 +20,28 @@ class Add extends Component {
       post.category = state.category
       this.props.handleAddPost(post);
     }
+    else if(this.props.data.editPost) {
+      let post = {}
+      let id = {}
+      let posts = {}
+      let updatedPost = {}
+      if(this.props.data && this.props.data.posts && this.props.data.editPost) {
+        id = this.props.data.editPost.editPost
+        posts = this.props.data.posts.posts;
+        if(posts) {
+          post = posts.filter(p => {
+            return p.id === id
+          })[0]
+          if(post) {
+            updatedPost.id = post.id;
+            updatedPost.title = (state.title && state.title.length > 0) ? state.title : post.title;
+            updatedPost.body = (state.body && state.body.length > 0) ? state.body : post.body;
+            console.log(updatedPost);
+            this.props.handleUpdatePost(updatedPost);
+          }
+        }
+      }
+    }
   }
 
   handleTitleChange = (event) => {
@@ -33,6 +55,10 @@ class Add extends Component {
   }
   handleCategoryChange = (event) => {
     this.setState({category: event.target.value});
+  }
+
+  isEditPostFlag = (flag) => {
+    this.setState({isEditPost: false});
   }
   render() {
     let post = {}

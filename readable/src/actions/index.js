@@ -76,3 +76,7 @@ export const handleEditPost = (id) => ({
 export const handlePostComment = (comment, parentId) => dispatch => {
   ReadableAPI.addComment(comment).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
 }
+
+export const handleUpdatePost = (id, body) => dispatch => {
+  ReadableAPI.updatePost(id, body).then(ReadableAPI.getAllPosts().then(posts => dispatch(getAllPosts(posts))))
+}
