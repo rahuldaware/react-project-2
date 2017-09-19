@@ -17,9 +17,12 @@ class PostDetail extends Component {
   }
 
   handleDeleteComment = (id, parentId) => {
-    console.log(id);
     this.props.handleDeleteComment(id, parentId);
-    this.setState({...this.props});
+  }
+
+  handleAddComment = (parentId) => {
+    console.log(parentId)
+    this.props.handleAddComment(parentId);
   }
 
   renderComments = (comments) => {
@@ -76,42 +79,45 @@ class PostDetail extends Component {
         return post.id === id;
       })
       post = posts[0]
-    return (
-      <div className="ListGroupBackGround">
-        <div>
-          <Link to="/" onClick = {() => this.props.handleBackToHomepage()}>Back to Homepage</Link>
-        </div>
-        <Panel>
-          <ListGroup >
-            <ListGroupItem><h3 className="textLeft">Title: {post.title}</h3></ListGroupItem>
-            <ListGroupItem><h3 className="textLeft">Body: {post.body}</h3></ListGroupItem>
-            <ListGroupItem className="textLeft">Author: {post.author}</ListGroupItem>
-            <ListGroupItem className="Center">
-              <ButtonToolbar>
-                  <Button disabled> Comments : {commentCount}</Button>
-                  <Button disabled> Votes : {post.voteScore}</Button>
-                  <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,upVote)}>
-                    <span>
-                      <Glyphicon glyph="thumbs-up"/>
-                    </span>
-                  </Button>
-                  <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,downVote)}>
-                    <span>
-                      <Glyphicon glyph="thumbs-down"/>
-                    </span>
-                  </Button>
-                  <Button>
-                    <Link to={`/${post.id}`} onClick={() => {}}>Add Comment</Link>
-                  </Button>
-              </ButtonToolbar>
-            </ListGroupItem>
-            <ListGroupItem>
-                {this.renderComments(comments)}
-            </ListGroupItem>
-          </ListGroup>
-        </Panel>
-      </div>
-    );}
+      if(post) {
+        return (
+          <div className="ListGroupBackGround">
+            <div>
+              <Link to="/" onClick = {() => this.props.handleBackToHomepage()}>Back to Homepage</Link>
+            </div>
+            <Panel>
+              <ListGroup >
+                <ListGroupItem><h3 className="textLeft">Title: {post.title}</h3></ListGroupItem>
+                <ListGroupItem><h3 className="textLeft">Body: {post.body}</h3></ListGroupItem>
+                <ListGroupItem className="textLeft">Author: {post.author}</ListGroupItem>
+                <ListGroupItem className="Center">
+                  <ButtonToolbar>
+                      <Button disabled> Comments : {commentCount}</Button>
+                      <Button disabled> Votes : {post.voteScore}</Button>
+                      <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,upVote)}>
+                        <span>
+                          <Glyphicon glyph="thumbs-up"/>
+                        </span>
+                      </Button>
+                      <Button bsStyle="primary" onClick={() => this.handlePostVote(post.id,downVote)}>
+                        <span>
+                          <Glyphicon glyph="thumbs-down"/>
+                        </span>
+                      </Button>
+                      <Button onClick={() => this.handleAddComment(post.id)}>
+                        <Link to="/comment">Add Comment</Link>
+                      </Button>
+                  </ButtonToolbar>
+                </ListGroupItem>
+                <ListGroupItem>
+                    {this.renderComments(comments)}
+                </ListGroupItem>
+              </ListGroup>
+            </Panel>
+          </div>
+        )
+      }
+    ;}
     else {
       return(<div></div>);
     }

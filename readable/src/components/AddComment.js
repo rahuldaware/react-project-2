@@ -14,13 +14,14 @@ class AddComment extends Component {
       const state = this.state;
       if(this.props.data.location.pathname) {
         let comment = {}
-        let parentId = this.props.data.location.pathname.split("/")[1]
+        console.log(this.props.data.addComment);
+        let parentId = this.props.data.addComment.parentId;
         comment.id = UUID()
         comment.timestamp = Date.now()
         comment.parentId = parentId
         comment.body = state.body
         comment.author = state.author
-        this.props.handleAddComment(comment)
+        this.props.handlePostComment(comment);
       }
 
     }

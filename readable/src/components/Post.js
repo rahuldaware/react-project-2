@@ -16,6 +16,14 @@ class Post extends React.Component {
  handleDeletePost =(id) => {
    this.props.handleDeletePost(id);
  }
+ handleEditPost =(id) => {
+   this.props.handleEditPost(id);
+ }
+
+ handleAddComment = (parentId) => {
+   console.log(parentId)
+   this.props.handleAddComment(parentId);
+ }
 
   render() {
     const post = this.props.post;
@@ -29,8 +37,8 @@ class Post extends React.Component {
             <ListGroupItem className="textLeft">{post.author}</ListGroupItem>
             <ListGroupItem className="Center">
               <ButtonToolbar>
-                <Button>
-                  <Link to={`/${post.id}`} onClick={() => {}}>Add Comment</Link>
+                <Button onClick={() => this.handleAddComment(post.id)}>
+                  <Link to="/comment">Add Comment</Link>
                 </Button>
                   <Button disabled> Comments : {post.commentCount}</Button>
                   <Button disabled> Votes : {post.voteScore}</Button>
@@ -43,6 +51,9 @@ class Post extends React.Component {
                     <span>
                       <Glyphicon glyph="thumbs-down"/>
                     </span>
+                  </Button>
+                  <Button bsStyle="info" onClick={() => this.handleEditPost(post.id)}>
+                    <Link to="/add">Edit Post</Link>
                   </Button>
                   <Button bsStyle="warning" onClick={() => this.handleEditClick(post.id, post.category)}>
                     <Link to={`/${post.category}/${post.id}`}>View</Link>

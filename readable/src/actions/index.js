@@ -63,6 +63,16 @@ export const handleDeleteComment = (id, parentId) => dispatch => {
   ReadableAPI.deleteComment(id).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
 }
 
-export const handleAddComment = (comment, parentId) => dispatch => {
+export const handleAddComment = (parentId) => ({
+  type: ActionTypes.HANDLE_ADD_COMMENT,
+  res: parentId
+})
+
+export const handleEditPost = (id) => ({
+  type: ActionTypes.HANDLE_EDIT_POST,
+  res: id
+})
+
+export const handlePostComment = (comment, parentId) => dispatch => {
   ReadableAPI.addComment(comment).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
 }

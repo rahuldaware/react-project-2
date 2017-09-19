@@ -12,7 +12,6 @@ class Main extends Component {
   renderPosts = (props) => {
     const posts = this.props.data.posts.posts;
     const comments = new Map(this.props.data.comments.comments);
-    console.log(this.props.data);
     if(posts){
       return(
         <div>
@@ -26,7 +25,9 @@ class Main extends Component {
                     <Post post ={post}
                       handleEditClick ={this.props.handleEditClick}
                       handlePostVote = {this.props.handlePostVote}
-                      handleDeletePost = {this.props.handleDeletePost}/>
+                      handleDeletePost = {this.props.handleDeletePost}
+                      handleEditPost = {this.props.handleEditPost}
+                      handleAddComment={this.props.handleAddComment}/>
                   </div>
                 )
             })
@@ -68,7 +69,6 @@ class Main extends Component {
   )}}
 
   render() {
-    console.log("Rendering Main");
     if(this.props.data.activeView && this.props.data.activeView.activeId && this.props.data.activeView.activeId.length > 0) {
       return (
         <div>

@@ -35,16 +35,22 @@ class Root extends Component {
 
   handleCategoryChange = (category) => {
     this.props.handleCategoryChange(category);
-    console.log(category);
   }
 
   handleBackToHomepage = (category) => {
     this.props.handleBackToHomepage();
+    this.props.handleEditPost(null);
+    this.props.handleAddComment(null);
     this.setState({...this.props});
   }
 
   handleAddPost = (post) => {
     this.props.handleAddPost(post);
+  }
+
+  handleEditPost = (id) => {
+    this.props.handleEditPost(id);
+    this.setState({...this.props});
   }
 
   handleDeletePost = (id) => {
@@ -57,8 +63,15 @@ class Root extends Component {
         this.setState({...this.props});
     })
   }
-  handleAddComment = (comment) => {
-    this.props.handleAddComment(comment, comment.parentId);
+  handleAddComment = (parentId) => {
+    this.props.handleAddComment(parentId);
+    console.log(parentId);
+  }
+
+  handlePostComment = (comment) => {
+    console.log(comment);
+    this.props.handlePostComment(comment, comment.parentId);
+    this.setState({...this.props});
   }
 
   componentDidMount(){
@@ -87,22 +100,27 @@ class Root extends Component {
                         handleCategoryChange={this.handleCategoryChange}
                         handleBackToHomepage={this.handleBackToHomepage}
                         handleDeletePost={this.handleDeletePost}
+                        handleEditPost = {this.handleEditPost}
+                        handleAddComment={this.handleAddComment}
                         />}/>
               <Route exact path='/add' render={() =>
                   <Add data={this.props}
                       handleBackToHomepage={this.handleBackToHomepage}
-                      handleAddPost = {this.handleAddPost}/>} />
+                      handleAddPost = {this.handleAddPost}
+                      />} />
               <Route exact path='/:category/:post_id' render={() =>
                 <PostDetail data={this.props}
                             handlePostVote={this.handlePostVote}
                             handleCommentVote={this.handleCommentVote}
                             handleBackToHomepage={this.handleBackToHomepage}
                             handleDeleteComment={this.handleDeleteComment}
+                            handleAddComment={this.handleAddComment}
                             />} />
-                          <Route exact path='/:post_id' render={() =>
+              <Route exact path='/comment' render={() =>
                   <AddComment data={this.props}
                               handleAddComment={this.handleAddComment}
-                              handleBackToHomepage={this.handleBackToHomepage}/>}/>
+                              handleBackToHomepage={this.handleBackToHomepage}
+                              handlePostComment={this.handlePostComment}/>}/>
               <Route exact path='/:category' render={() =>
                 <Category data={this.props}
                   handlePostVote={this.handlePostVote}
@@ -128,9 +146,11 @@ function mapDispatchToProps(dispatch) {
     handleCategoryChange: (category) => dispatch(Actions.updateCategory(category)),
     handleBackToHomepage: () => dispatch(Actions.handleBackToHomepage()),
     handleAddPost: (post) => dispatch(Actions.handleAddPost(post)),
+    handleEditPost: (id) => dispatch(Actions.handleEditPost(id)),
     handleDeletePost: (id) => dispatch(Actions.handleDeletePost(id)),
     handleDeleteComment: (id, parentId) => dispatch(Actions.handleDeleteComment(id, parentId)),
-    handleAddComment: (comment, parentId) => dispatch(Actions.handleAddComment(comment, parentId))
+    handleAddComment: (parentId) => dispatch(Actions.handleAddComment(parentId)),
+    handlePostComment: (comment, parentId) => dispatch(Actions.handlePostComment(comment, parentId))
   }
 }
 
@@ -139,7 +159,9 @@ function mapStateToProps(state, props) {
     categories: state.categories,
     posts: state.posts,
     comments: state.comments,
-    activeView: state.activeView
+    activeView: state.activeView,
+    editPost: state.editPost,
+    addComment: state.addComment
   }
 }
 

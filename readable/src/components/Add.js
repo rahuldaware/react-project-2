@@ -35,6 +35,28 @@ class Add extends Component {
     this.setState({category: event.target.value});
   }
   render() {
+    let post = {}
+    let id = {}
+    let posts = {}
+    let title = {}
+    let body = {}
+    let author = {}
+    let category = {}
+    if(this.props.data && this.props.data.posts && this.props.data.editPost) {
+      id = this.props.data.editPost.editPost
+      posts = this.props.data.posts.posts;
+      if(posts) {
+        post = posts.filter(p => {
+          return p.id === id
+        })[0]
+        if(post) {
+          title = post.title
+          body = post.body
+          author = post.author
+          category = post.category
+        }
+      }
+    }
 
     return (
         <div>
@@ -46,22 +68,22 @@ class Add extends Component {
 
               <label>
                 Title:
-                  <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange}/>
+                  <input type="text" name="title" placeholder={title.length>0 ? title : ""} value={this.state.title} onChange={this.handleTitleChange}/>
               </label>
 
               <label>
                 Body:
-                  <input type="text" name="body" value={this.state.body} onChange={this.handleBodyChange}/>
+                  <input type="text" name="body" placeholder={body.length>0 ? body : ""} value={this.state.body} onChange={this.handleBodyChange}/>
               </label>
 
               <label>
                 Author:
-                  <input type="text" name="author" value={this.state.author} onChange={this.handleAuthorChange}/>
+                  <input type="text" name="author" placeholder={author.length>0 ? author : ""} value={this.state.author} onChange={this.handleAuthorChange}/>
               </label>
 
               <label>
                 Category:
-                    <input type="text" name="category" value={this.state.category} onChange={this.handleCategoryChange}/>
+                    <input type="text" name="category" placeholder={category.length>0 ? category : ""} value={this.state.category} onChange={this.handleCategoryChange}/>
               </label>
                 <input type="submit" value="Submit" />
 
