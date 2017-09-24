@@ -14,7 +14,6 @@ class AddComment extends Component {
       const state = this.state;
       if(this.props.data.location.pathname) {
         let comment = {}
-        console.log(this.props.data.addComment);
         let parentId = this.props.data.addComment.parentId;
         comment.id = UUID()
         comment.timestamp = Date.now()

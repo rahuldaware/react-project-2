@@ -1,17 +1,39 @@
 import   React, { Component } from 'react';
 import Post from './Post';
 import {Redirect} from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import { ButtonToolbar, Button } from 'react-bootstrap';
 
 class Main extends Component {
 
+  handleSortByDate = () => {
+    this.setState({...this.props,
+                  sortByDate : 1,
+                  sortByVote: null})
+  }
+  handleSortByVote = () => {
+    this.setState({...this.props,
+                  sortByDate : null,
+                  sortByVote: 1});
+  }
   componentDidMount() {
     this.setState({...this.props});
   }
   renderPosts = (props) => {
-    const posts = this.props.data.posts.posts;
+    let posts = this.props.data.posts.posts;
     const comments = new Map(this.props.data.comments.comments);
+    const state = this.state;
+
+    if(state && state.sortByVote) {
+      posts = posts.sort((a, b) => {
+        return b.voteScore - a.voteScore;
+      })
+    }
+    if(state && state.sortByDate) {
+      posts = posts.sort((a, b) => {
+        return b.timestamp - a.timestamp;
+      })
+    }
     if(posts){
       return(
         <div>
@@ -87,6 +109,12 @@ class Main extends Component {
       <div>
         <div>
           {this.renderCategories(this.props.data)}
+        </div>
+        <div>
+          <ButtonToolbar>
+            <Button onClick= {() => this.handleSortByDate()}>Sort by Date</Button>
+            <Button onClick= {() => this.handleSortByVote()}>Sort by Votes</Button>
+          </ButtonToolbar>
         </div>
         <div>
           {this.renderPosts(this.props.categories)}

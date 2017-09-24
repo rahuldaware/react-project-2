@@ -1,11 +1,24 @@
 import  React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Post from './Post';
+import { ButtonToolbar, Button } from 'react-bootstrap';
 
 class Category extends Component {
 
+  handleSortByDate = () => {
+    this.setState({...this.props,
+                  sortByDate : 1,
+                  sortByVote: null})
+  }
+  handleSortByVote = () => {
+    this.setState({...this.props,
+                  sortByDate : null,
+                  sortByVote: 1});
+  }
+
   renderPosts = (props) => {
     let category = ''
+    let state = this.state;
     if(props.data.location.pathname) {
       category = props.data.location.pathname.split("/")[1];
     }
@@ -17,10 +30,19 @@ class Category extends Component {
         });
     }
     const comments = new Map(this.props.data.comments.comments);
+    if(state && state.sortByVote) {
+      posts = posts.sort((a, b) => {
+        return b.voteScore - a.voteScore;
+      })
+    }
+    if(state && state.sortByDate) {
+      posts = posts.sort((a, b) => {
+        return b.timestamp - a.timestamp;
+      })
+    }
     if(posts) {
       return(
         posts.filter((post) => {
-          console.log(post)
           return post.deleted === false;
         }).map((post) => {
           post.commentCount = (comments.get(post.id)) ? comments.get(post.id).length : 0;
@@ -42,7 +64,12 @@ class Category extends Component {
             <Link to="/" onClick = {() => this.props.handleBackToHomepage()}>Back to Homepage</Link>
           </div>
           <div>
-            hello
+            <ButtonToolbar>
+              <Button onClick= {() => this.handleSortByDate()}>Sort by Date</Button>
+              <Button onClick= {() => this.handleSortByVote()}>Sort by Votes</Button>
+            </ButtonToolbar>
+          </div>
+          <div>
             {this.renderPosts(this.props)}
           </div>
         </div>

@@ -18,7 +18,6 @@ class UpdateComment extends Component {
       openUpdateComment = this.props.data.updateComment.updateComment;
       let commentsMap = this.props.data.comments.comments;
       if(commentsMap && openUpdateComment) {
-        console.log(openUpdateComment)
         commentList = commentsMap.get(openUpdateComment.parentId)
         commentList = commentList.filter((comment) => comment.id === openUpdateComment.commentId)
         if(commentList) {
