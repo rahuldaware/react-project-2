@@ -6,6 +6,7 @@ import Add from './Add';
 import AddComment from './AddComment';
 import { Route, Switch } from 'react-router-dom';
 import {connect} from 'react-redux';
+import UpdateComment from './UpdateComment';
 import * as Actions from '../actions/index';
 import { withRouter } from 'react-router';
 
@@ -65,11 +66,9 @@ class Root extends Component {
   }
   handleAddComment = (parentId) => {
     this.props.handleAddComment(parentId);
-    console.log(parentId);
   }
 
   handlePostComment = (comment) => {
-    console.log(comment);
     this.props.handlePostComment(comment, comment.parentId);
     this.setState({...this.props});
   }
@@ -80,7 +79,22 @@ class Root extends Component {
     body.title = post.title
     body.body = post.body
     this.props.handleUpdatePost(id, body);
-    console.log(post);
+  }
+
+  handleUpdateComment = (updatedComment) => {
+    let parentId = updatedComment.parentId
+    let id = updatedComment.id
+    let body = {}
+    body.body = updatedComment.body
+    body.timestamp = updatedComment.timestamp
+    this.props.handleUpdateComment(id, parentId, body);
+  }
+
+  openUpdateComment = (parentId, commentId) => {
+    var openCommentUpdate = {}
+    openCommentUpdate.parentId = parentId;
+    openCommentUpdate.commentId = commentId;
+    this.props.openUpdateComment(openCommentUpdate);
   }
 
   componentDidMount(){
@@ -125,12 +139,17 @@ class Root extends Component {
                             handleBackToHomepage={this.handleBackToHomepage}
                             handleDeleteComment={this.handleDeleteComment}
                             handleAddComment={this.handleAddComment}
+                            openUpdateComment={this.openUpdateComment}
                             />} />
               <Route exact path='/comment' render={() =>
                   <AddComment data={this.props}
                               handleAddComment={this.handleAddComment}
                               handleBackToHomepage={this.handleBackToHomepage}
                               handlePostComment={this.handlePostComment}/>}/>
+              <Route exact path='/updateComment' render={() =>
+                  <UpdateComment data={this.props}
+                                handleBackToHomepage={this.handleBackToHomepage}
+                                handleUpdateComment={this.handleUpdateComment}/>}/>
               <Route exact path='/:category' render={() =>
                 <Category data={this.props}
                   handlePostVote={this.handlePostVote}
@@ -160,7 +179,9 @@ function mapDispatchToProps(dispatch) {
     handleDeleteComment: (id, parentId) => dispatch(Actions.handleDeleteComment(id, parentId)),
     handleAddComment: (parentId) => dispatch(Actions.handleAddComment(parentId)),
     handlePostComment: (comment, parentId) => dispatch(Actions.handlePostComment(comment, parentId)),
-    handleUpdatePost: (id, body) => dispatch(Actions.handleUpdatePost(id, body))
+    handleUpdatePost: (id, body) => dispatch(Actions.handleUpdatePost(id, body)),
+    handleUpdateComment: (id, parentId, body) => dispatch(Actions.handleUpdateComment(id, parentId, body)),
+    openUpdateComment: (openCommentUpdate) => dispatch(Actions.openUpdateComment(openCommentUpdate))
   }
 }
 
@@ -171,7 +192,8 @@ function mapStateToProps(state, props) {
     comments: state.comments,
     activeView: state.activeView,
     editPost: state.editPost,
-    addComment: state.addComment
+    addComment: state.addComment,
+    updateComment: state.updateComment
   }
 }
 

@@ -1,7 +1,6 @@
 import * as ActionTypes from '../actions/actionTypes.js';
 
 export default function(state={}, action) {
-      console.log(action.type);
       switch(action.type) {
         case ActionTypes.EDIT_POST:
           return {
@@ -21,10 +20,10 @@ export default function(state={}, action) {
           return {
             ...state,
             activeCategory : {},
-            activeId: {}
+            activeId: {},
             editPost: {}
           }
-        
+
 
         default:
           return state;

@@ -2,10 +2,10 @@ import * as ActionTypes from '../actions/actionTypes.js';
 
 export default function(state={}, action) {
   switch(action.type) {
-    case ActionTypes.HANDLE_EDIT_POST: {
+    case ActionTypes.OPEN_UPDATE_COMMENT: {
         return {
           ...state,
-          editPost: action.res,
+          updateComment: action.res,
         }
     }
     default:

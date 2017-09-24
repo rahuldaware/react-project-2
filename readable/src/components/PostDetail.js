@@ -21,12 +21,14 @@ class PostDetail extends Component {
   }
 
   handleAddComment = (parentId) => {
-    console.log(parentId)
     this.props.handleAddComment(parentId);
   }
 
+  openCommentPage = (parentId, commentId) => {
+    this.props.openUpdateComment(parentId, commentId);
+  }
+
   renderComments = (comments) => {
-    console.log(comments)
     if(comments) {
       return(
           <div>
@@ -49,8 +51,8 @@ class PostDetail extends Component {
                                 <Glyphicon glyph="thumbs-down"/>
                               </span>
                             </Button>
-                            <Button bsStyle="warning">
-                              Edit
+                            <Button bsStyle="warning" onClick={() => this.openCommentPage(comment.parentId, comment.id)}>
+                              <Link to="/updateComment">Edit</Link>
                             </Button>
                             <Button bsStyle="danger" onClick={() => this.handleDeleteComment(comment.id, comment.parentId)}>Delete</Button>
                         </ButtonToolbar>
@@ -64,7 +66,6 @@ class PostDetail extends Component {
     }
   }
   render() {
-    console.log(this.props.data);
     let id = ""
     if(this.props.data.location.pathname) {
       id = this.props.data.location.pathname.split("/")[2];

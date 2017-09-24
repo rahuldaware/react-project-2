@@ -80,3 +80,12 @@ export const handlePostComment = (comment, parentId) => dispatch => {
 export const handleUpdatePost = (id, body) => dispatch => {
   ReadableAPI.updatePost(id, body).then(ReadableAPI.getAllPosts().then(posts => dispatch(getAllPosts(posts))))
 }
+
+export const handleUpdateComment = (id, parentId, body) => dispatch => {
+  ReadableAPI.updateComment(id, body).then(ReadableAPI.getComments(parentId).then(comments => dispatch(getComments(comments))))
+}
+
+export const openUpdateComment = (openCommentUpdate) => ({
+  type: ActionTypes.OPEN_UPDATE_COMMENT,
+  res: openCommentUpdate
+});
