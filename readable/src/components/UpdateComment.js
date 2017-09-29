@@ -24,7 +24,7 @@ class UpdateComment extends Component {
           comment = commentList[0];
         }
         updatedComment.id = comment.id
-        updatedComment.body = (this.state && this.state.body.length > 0) ? this.state.body : comment.body
+        updatedComment.body = (this.state && this.state.body && this.state.body.length > 0) ? this.state.body : comment.body
         updatedComment.timestamp = Date.now()
         updatedComment.parentId = comment.parentId
         this.props.handleUpdateComment(updatedComment);
