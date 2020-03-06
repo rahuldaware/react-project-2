@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "npm": "^5.4.2",
+    "npm": ">=6.13.4",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-navbar": "^1.1.0",
